@@ -15,7 +15,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'dark', size = 'md' }) => 
   return (
     <div className="flex items-center gap-2 select-none">
       <img 
-        src="/assets/aistudio/Gemini_Generated_Image_g56kvng56kvng56k_e33eb3ee.jfif" 
+        src={`${import.meta.env.BASE_URL}assets/aistudio/Gemini_Generated_Image_g56kvng56kvng56k_e33eb3ee.jfif`}
         alt="PRIME STYLE" 
         className={`${sizeClasses[size]} object-contain border border-black`}
       />

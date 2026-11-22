@@ -10,18 +10,6 @@
         var search = window.location.search || '';
         var hash = window.location.hash || '';
 
-        if (/\/admin\/?$/.test(pathname)) {
-          var adminBase = pathname.replace(/\/admin\/?$/, '/');
-          var hasView = /(?:^|[?&])view=/.test(search);
-          var nextSearch = hasView
-            ? search
-            : search
-              ? search + '&view=admin'
-              : '?view=admin';
-          window.location.replace(adminBase + nextSearch + hash);
-          return;
-        }
-
         // Guard against infinite redirect loops if hosting fails to serve index.html
         try {
           var key = 'prime_spa_404_hops';
@@ -32,10 +20,22 @@
           }
           sessionStorage.setItem(key, String(hops + 1));
         } catch (e) {
-          // Ignore sessionStorage errors in restricted browsing modes
+          if (pathname === '/') return;
         }
 
-        var parentPath = pathname.replace(/\/[^/]+\/?$/, '/');
+        if (/\/admin\/?$/.test(pathname)) {
+          var adminBase = pathname.replace(/\/+admin\/*$/, '/');
+          var hasView = /(?:^|[?&])view=/.test(search);
+          var nextSearch = hasView
+            ? search
+            : search
+              ? search + '&view=admin'
+              : '?view=admin';
+          window.location.replace(adminBase + nextSearch + hash);
+          return;
+        }
+
+        var parentPath = pathname.replace(/\/+[^/]+\/*$/, '/');
         if (!parentPath || parentPath === pathname) {
           parentPath = '/';
         }

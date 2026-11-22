@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRIME STYLE | Redirecting...</title>
+    <script>
+      (function () {
+        var pathname = window.location.pathname || '/';
+        var search = window.location.search || '';
+        var hash = window.location.hash || '';
+
+        if (/\/admin\/?$/.test(pathname)) {
+          var adminBase = pathname.replace(/\/admin\/?$/, '/');
+          var hasView = /(?:^|[?&])view=/.test(search);
+          var nextSearch = hasView
+            ? search
+            : search
+              ? search + '&view=admin'
+              : '?view=admin';
+          window.location.replace(adminBase + nextSearch + hash);
+          return;
+        }
+
+        // Guard against infinite redirect loops if hosting fails to serve index.html
+        try {
+          var key = 'prime_spa_404_hops';
+          var hops = Number(sessionStorage.getItem(key) || '0');
+          if (hops >= 6 || pathname === '/') {
+            sessionStorage.removeItem(key);
+            return;
+          }
+          sessionStorage.setItem(key, String(hops + 1));
+        } catch (e) {
+          // Ignore sessionStorage errors in restricted browsing modes
+        }
+
+        var parentPath = pathname.replace(/\/[^/]+\/?$/, '/');
+        if (!parentPath || parentPath === pathname) {
+          parentPath = '/';
+        }
+        window.location.replace(parentPath + search + hash);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

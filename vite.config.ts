@@ -26,22 +26,6 @@ export default defineConfig(() => {
           if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {
             fs.cpSync(srcAssets, distAssets, {recursive: true, force: true});
           }
-          if (fs.existsSync(distDir)) {
-            fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
-            fs.writeFileSync(
-              path.join(distDir, '404.html'),
-              `<!doctype html><html><head><meta charset="utf-8"><script>
-(function(){
-  var p = window.location.pathname;
-  if (/\\/admin\\/?$/.test(p)) {
-    window.location.replace(p.replace(/\\/admin\\/?$/, '/?view=admin') + window.location.hash);
-  } else {
-    window.location.replace('./' + window.location.search + window.location.hash);
-  }
-})();
-</script></head><body></body></html>`
-            );
-          }
         },
       },
     ],

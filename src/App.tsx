@@ -42,6 +42,12 @@ export default function App() {
   };
 
   useEffect(() => {
+    try {
+      sessionStorage.removeItem('prime_spa_404_hops');
+    } catch {
+      // Ignore sessionStorage access errors
+    }
+
     // Check if session is already authenticated as admin
     const authSession = sessionStorage.getItem('prime_admin_auth');
     if (authSession === 'true') {
@@ -53,7 +59,7 @@ export default function App() {
     const viewParam = params.get('view');
     const productParam = params.get('product');
 
-    if (viewParam === 'admin' || window.location.pathname === '/admin') {
+    if (viewParam === 'admin' || /\/admin\/?$/.test(window.location.pathname)) {
       if (authSession === 'true') {
         setCurrentView('admin');
       } else {

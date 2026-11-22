@@ -1,0 +1,8 @@
+{
+  "name": "Toko Online Prime",
+  "description": "High-performance athletic e-commerce, affiliate landing page, and admin CMS dashboard for PRIME STYLE.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
